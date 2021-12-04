@@ -4,8 +4,7 @@ const port = 3000;
 const servoController = new (require('./servo-controller'))();
 
 app.get('/feedit', (req, res) => {
-    
-    res.send(servoController.feedOnce(true));
+    res.send(servoController.feedOnce(req.query.wiggle));
 })
 
 app.get('/wiggleit', (req, res) => {

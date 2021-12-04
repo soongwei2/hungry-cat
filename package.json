@@ -1,0 +1,17 @@
+{
+  "name": "hungry-cat",
+  "version": "1.0.0",
+  "description": "Toto is always hungry.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wong Soong Wei",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pi-servo": "^1.0.2",
+    "simple-json-db": "^1.2.3"
+  }
+}

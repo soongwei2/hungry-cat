@@ -19,7 +19,7 @@ class ServoController {
 
     feedOnce(runWiggler = false) {
         const parent = this;
-        sv1.open().then(function () {
+        return sv1.open().then(function () {
 
             const result = parent.mathAngle(db.get('currentDegree'), db.get('currentDirection'));
 
@@ -35,7 +35,7 @@ class ServoController {
     }
 
     wiggler() {
-        sv1.open().then(async function () {
+        return sv1.open().then(async function () {
 
             await new Promise(resolve => setTimeout(resolve, 500));
             sv1.setDegree(db.get('currentDegree') + 10); // 0 - 180

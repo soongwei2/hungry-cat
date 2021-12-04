@@ -4,11 +4,12 @@ const port = 3000;
 const servoController = new (require('./servo-controller'))();
 
 app.get('/feedit', (req, res) => {
-    servoController.feedOnce();
+    
+    res.send(servoController.feedOnce(true));
 })
 
 app.get('/wiggleit', (req, res) => {
-    servoController.wiggler();
+    res.send(servoController.wiggler());
 })
 
 app.listen(port, () => {

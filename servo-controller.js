@@ -18,16 +18,17 @@ class ServoController {
     }
 
     feedOnce(runWiggler = false) {
+        const parent = this;
         sv1.open().then(function () {
 
-            const result = this.mathAngle(db.get('currentDegree'), db.get('currentDirection'));
+            const result = parent.mathAngle(db.get('currentDegree'), db.get('currentDirection'));
 
             sv1.setDegree(result.currentAngle); // 0 - 180
             db.set('currentDegree', result.currentAngle)
             db.set('currentDirection', result.direction);
 
             if (runWiggler) {
-                this.wiggler();
+                parent.wiggler();
             }
 
         });

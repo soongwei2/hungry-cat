@@ -6,6 +6,7 @@ import logging
 
 from worker import Worker
 from events.Notification import Notification
+from subprocess import call
 
 # Let's try to identify what hardware we're on.
 is_gpio_capable = False
@@ -61,12 +62,6 @@ class FeedWorker(Worker):
                 pass
 
     def feed(self, feed_size):
-        if not is_gpio_capable:
-            logging.getLogger('petfeedd').info("This device is not GPIO capable. Simulating a feed.")
-            return
-
-        feed_size_time = float(self.config["gpio"]["servo_feed_time"]) * float(feed_size)
-        servo = Servo(int(self.config["gpio"]["servo_pin"]))
-        servo.max()
-        time.sleep(feed_size_time)
-        servo.detach()
+        for _ in range(int(feed_size)):
+            call(["node", "/home/pi/hungry-cat-servo/index.js", "true"])
+            time.sleep(2)

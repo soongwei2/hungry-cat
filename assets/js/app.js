@@ -1,4 +1,4 @@
-var Settings = { template: '<div></div>' }
+var Settings = { template: '<div><h1>Live Video</h1><img id="img" src="/api/video_feed"></div>' }
 
 var t = new Date();
 var DefaultFeed = {

@@ -136,7 +136,7 @@ class WebWorker(Worker):
             return jsonify(True)
 
         # Start the built-in Flask server.
-        self.app.run(self.config["web"]["bind_address"], int(self.config["web"]["bind_port"]))
+        self.app.run(self.config["web"]["bind_address"], int(self.config["web"]["bind_port"]), threaded=True)
 
     # Overrides the end method to shut down the thread gracefully.
     def end(self):

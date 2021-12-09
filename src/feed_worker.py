@@ -3,10 +3,14 @@ import time
 import queue
 import datetime
 import logging
+import cv2
+import numpy as np
 
 from worker import Worker
 from events.Notification import Notification
 from subprocess import call
+
+
 
 # Let's try to identify what hardware we're on.
 is_gpio_capable = False
@@ -48,8 +52,8 @@ class FeedWorker(Worker):
                 feed_event = self.feed_queue.get(timeout=1)
                 if feed_event:
                     logging.getLogger('petfeedd').info("Found a feed event. Dispensing " + str(feed_event.size) + " feeds.")
-                    self.feed(feed_event.size)
-
+                    self.feed(feed_event.size, feed_event.date_created)
+                    
                     note = Notification()
                     note.text = self.config["general"]["name"] + " dispensed " + \
                         str(feed_event.size) + " feeds at " + \
@@ -61,7 +65,37 @@ class FeedWorker(Worker):
             except queue.Empty:
                 pass
 
-    def feed(self, feed_size):
+    def feed(self, feed_size, id):
+        self.recordVideo(id)
         for _ in range(int(feed_size)):
             call(["node", "/home/pi/hungry-cat-servo/index.js", "true"])
             time.sleep(2)
+
+    def recordVideo(self, id):
+        capture_duration = 10
+
+        cap = cv2.VideoCapture(0)
+
+        # Define the codec and create VideoWriter object
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter('./videos/' + id + '.avi',fourcc, 20.0, (640,480))
+
+        start_time = time.time()
+        while( int(time.time() - start_time) < capture_duration ):
+            ret, frame = cap.read()
+            if ret==True:
+                frame = cv2.flip(frame,0)
+
+                # write the flipped frame
+                out.write(frame)
+
+                cv2.imshow('frame',frame)
+                #if cv2.waitKey(1) & 0xFF == ord('q'):
+                #    break
+            else:
+                break
+
+        # Release everything if job is finished
+        cap.release()
+        out.release()
+        cv2.destroyAllWindows()

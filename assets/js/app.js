@@ -1,4 +1,4 @@
-var Settings = { template: '<div><h1>Live Video</h1><img id="img" src="/api/video_feed"></div>' }
+var Video = { template: '<div><h1>Live Video</h1><img id="img" src="/api/video_feed"></div>' }
 
 var t = new Date();
 var DefaultFeed = {
@@ -135,7 +135,7 @@ var Feeds = Vue.component('feeds', {
 var routes = [
     { path: '/', component: Home, title: 'Home' },
     { path: '/feeds', component: Feeds, title: 'Schedule' },
-    { path: '/settings', component: Settings, title: 'Settings' },
+    { path: '/video', component: Video, title: 'Video' },
 ];
 
 var router = new VueRouter({

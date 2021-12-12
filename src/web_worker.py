@@ -126,7 +126,7 @@ class WebWorker(Worker):
                 mimetype='multipart/x-mixed-replace; boundary=frame')
 
         @self.app.route('/api/stream_video/<int:feed_id>', methods=['GET'])
-        def video_feed():
+        def video_feed(feed_id):
             return Response(self.streamVideo(feed_id),
                 mimetype='multipart/x-mixed-replace; boundary=frame')
 

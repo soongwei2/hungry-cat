@@ -4,6 +4,7 @@ import urllib.request
 import petfeedd
 import logging
 import cv2
+import numpy as np
 from time import mktime
 
 from flask import Flask
@@ -119,9 +120,14 @@ class WebWorker(Worker):
         def status():
             return self.get_status()
 
-        @self.app.route('/api/video_feed')
+        @self.app.route('/api/video_feed', methods=['GET'])
         def video_feed():
             return Response(self.generateVideo(),
+                mimetype='multipart/x-mixed-replace; boundary=frame')
+
+        @self.app.route('/api/stream_video/<int:feed_id>', methods=['GET'])
+        def video_feed():
+            return Response(self.streamVideo(feed_id),
                 mimetype='multipart/x-mixed-replace; boundary=frame')
 
         # A special endpoint that shuts down the server
@@ -224,3 +230,18 @@ class WebWorker(Worker):
             yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
         video_capture.release()
+
+    def streamVideo(self, id):
+        cap = cv2.VideoCapture('feed' + str(id) + '.avi')
+ 
+        while(cap.isOpened()):
+            ret, frame = cap.read()
+        
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            cv2.imshow('frame', gray)
+        
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()

@@ -53,6 +53,9 @@ var Home = Vue.component('home', {
             this.$http.get('/api/status').then(function(response) {
                 this.status = response.body;
             });
+        },
+        streamVideo(id) {
+            window.open('/api/stream_video/' + str(id), '_blank').focus();
         }
     }
 });

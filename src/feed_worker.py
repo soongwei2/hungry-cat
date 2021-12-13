@@ -68,4 +68,6 @@ class FeedWorker(Worker):
 
     def recordVideo(self, id):
         print("id: ", id)
-        call(["ffmpeg -f v4l2 -s 640x480 -i /dev/video0", "-t 00:00:10", id + ".avi"])
+        data = "record-video.sh " + str(id)
+        print("data: ", data )
+        call([data], shell=True, cwd='/home/pi')

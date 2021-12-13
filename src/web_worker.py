@@ -4,7 +4,6 @@ import urllib.request
 import petfeedd
 import logging
 import cv2
-import numpy as np
 from time import mktime
 
 from flask import Flask
@@ -48,7 +47,7 @@ class WebWorker(Worker):
 
     # Initializes the class.
     def __init__(self, feed_queue, config, *args, **kwargs):
-        self.app = CustomFlask(__name__)
+        self.app = CustomFlask(__name__, static_folder='/home/pi/videos', static_url_path='/videos')
         self.feed_queue = feed_queue
         self.config = config
         super().__init__(*args, **kwargs)
@@ -230,18 +229,3 @@ class WebWorker(Worker):
             yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
         video_capture.release()
-
-    def streamVideo(self, id):
-        cap = cv2.VideoCapture('feed' + str(id) + '.avi')
- 
-        while(cap.isOpened()):
-            ret, frame = cap.read()
-        
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            cv2.imshow('frame', gray)
-        
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()

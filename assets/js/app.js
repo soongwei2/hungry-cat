@@ -55,7 +55,7 @@ var Home = Vue.component('home', {
             });
         },
         streamVideo(id) {
-            window.open('/api/stream_video/' + id, '_blank').focus();
+            window.open('/videos/' + id + 'mp4', '_blank').focus();
         }
     }
 });

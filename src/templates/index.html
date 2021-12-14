@@ -41,11 +41,9 @@
                 <div class="col-md-9">
                     {{ event.name }}
                 </div>
-                <div>
-                    <button type="button" class="btn btn-default" aria-label="Left Align" v-on:click='streamVideo(event.id)'>
-                        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                    </button>
-                </div>
+                <button class="btn btn-info" v-on:click='streamVideo(event.id)'>
+                    Replay
+                </button>
             </div>
         </div>
     </script>

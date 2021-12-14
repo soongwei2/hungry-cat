@@ -42,7 +42,9 @@
                     {{ event.name }}
                 </div>
                 <div>
-                    <button class="btn btn-lg btn-success" v-on:click='streamVideo(event.id)'>Video</button>
+                    <button type="button" class="btn btn-default" aria-label="Left Align" v-on:click='streamVideo(event.id)'>
+                        <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                    </button>
                 </div>
             </div>
         </div>

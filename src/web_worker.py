@@ -47,7 +47,7 @@ class WebWorker(Worker):
 
     # Initializes the class.
     def __init__(self, feed_queue, config, *args, **kwargs):
-        self.app = CustomFlask(__name__, static_folder='/home/pi/videos', static_url_path='/videos')
+        self.app = CustomFlask(__name__)
         self.feed_queue = feed_queue
         self.config = config
         super().__init__(*args, **kwargs)

@@ -49,7 +49,7 @@ class FeedWorker(Worker):
                 if feed_event:
                     logging.getLogger('petfeedd').info("Found a feed event. Dispensing " + str(feed_event.size) + " feeds.")
                     self.feed(feed_event.size)
-                    self.recordVideo(feed_event.date_created)
+                    self.recordVideo(feed_event.id)
                     note = Notification()
                     note.text = self.config["general"]["name"] + " dispensed " + \
                         str(feed_event.size) + " feeds at " + \
@@ -67,7 +67,5 @@ class FeedWorker(Worker):
             time.sleep(2)
 
     def recordVideo(self, id):
-        print("id: ", id)
-        data = "record-video.sh " + str(id)
-        print("data: ", data )
-        call([data], shell=True, cwd='/home/pi')
+        data = "./record-video.sh " + str(id)
+        call([data], shell=True, cwd='/home/pi/hungry-cat/src/static/videos')

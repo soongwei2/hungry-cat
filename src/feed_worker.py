@@ -67,5 +67,5 @@ class FeedWorker(Worker):
             time.sleep(2)
 
     def recordVideo(self, id):
-        data = "./record-video.sh " + str(id)
+        data = "./record-video.sh feed_" + str(id)
         call([data], shell=True, cwd='/home/pi/hungry-cat/src/static/videos')

@@ -48,8 +48,11 @@ class FeedWorker(Worker):
                 feed_event = self.feed_queue.get(timeout=1)
                 if feed_event:
                     logging.getLogger('petfeedd').info("Found a feed event. Dispensing " + str(feed_event.size) + " feeds.")
-                    self.feed(feed_event.size)
+                    
                     self.recordVideo(feed_event.id)
+                    time.sleep(10)
+                    self.feed(feed_event.size)
+                    
                     note = Notification()
                     note.text = self.config["general"]["name"] + " dispensed " + \
                         str(feed_event.size) + " feeds at " + \
@@ -69,3 +72,6 @@ class FeedWorker(Worker):
     def recordVideo(self, id):
         data = "./record-video.sh feed_" + str(id)
         call([data], shell=True, cwd='/home/pi/hungry-cat/src/static/videos')
+
+    def deleteOld(self):
+        

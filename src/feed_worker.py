@@ -50,13 +50,12 @@ class FeedWorker(Worker):
                 if feed_event:
                     logging.getLogger('petfeedd').info("Found a feed event. Dispensing " + str(feed_event.size) + " feeds.")
                      
-                    p1 = Process(target=self.recordVideo(feed_event.id))
+                    p1 = Process(target=self.recordVideo, args=(feed_event.id,))
                     p1.start()
                     time.sleep(10)
-                    p2 = Process(target=self.feed(feed_event.size))
+                    p2 = Process(target=self.feed, args=(feed_event.size,))
                     p2.start()
-                    p1.join()
-                    p2.join()
+
 
                     note = Notification()
                     note.text = self.config["general"]["name"] + " dispensed " + \

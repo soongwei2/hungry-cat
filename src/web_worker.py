@@ -16,6 +16,7 @@ from worker import Worker
 from models.Setting import Setting
 from models.Feed import Feed
 from models.FeedEvent import FeedEvent
+from subprocess import call
 
 # Because we're using vue.js on the front end and vue uses {{}} for it's
 # templating, we need to create a custom Flask object that overrides jinja's

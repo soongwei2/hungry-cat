@@ -8,6 +8,7 @@ import petfeedd
 from worker import Worker
 from models.Feed import Feed
 from models.FeedEvent import FeedEvent
+from subprocess import call
 
 class TimeWorker(Worker):
     def __init__(self, feed_queue, *args, **kwargs):

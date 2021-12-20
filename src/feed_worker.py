@@ -72,6 +72,3 @@ class FeedWorker(Worker):
     def recordVideo(self, id):
         data = "./record-video.sh feed_" + str(id)
         call([data], shell=True, cwd='/home/pi/hungry-cat/src/static/videos')
-
-    def deleteOld(self):
-        

@@ -52,7 +52,7 @@ class FeedWorker(Worker):
                      
                     p1 = Process(target=self.recordVideo, args=(feed_event.id,))
                     p1.start()
-                    time.sleep(10)
+                    time.sleep(5)
                     p2 = Process(target=self.feed, args=(feed_event.size,))
                     p2.start()
 

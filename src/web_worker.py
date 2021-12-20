@@ -198,7 +198,7 @@ class WebWorker(Worker):
         data = request.get_json(force=True)
         feed = Feed.select().where(Feed.id == data["id"]).get()
         if feed:
-            feed.time = data["time"];
+            feed.time = data["time"] + ":00";
             feed.name = data["name"];
             feed.size = data["size"];
             feed.last_feed = data["last_feed"];

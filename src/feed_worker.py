@@ -8,7 +8,6 @@ from worker import Worker
 from events.Notification import Notification
 from subprocess import call
 from multiprocessing import Process
-from models.FeedEvent import FeedEvent
 
 # Let's try to identify what hardware we're on.
 is_gpio_capable = False
@@ -77,7 +76,3 @@ class FeedWorker(Worker):
     def recordVideo(self, id):
         data = "./record-video.sh feed_" + str(id)
         call([data], shell=True, cwd='/home/pi/hungry-cat/src/static/videos')
-
-    def removeOldFeeds():
-        print("stuff")
-        print(FeedEvent.select().order_by(FeedEvent.date_created.desc()))

@@ -98,6 +98,7 @@ class WebWorker(Worker):
         def feed_now():
             feed_event = FeedEvent.create(size=1, name="On Demand")
             self.feed_queue.put(feed_event)
+            self.removeOldFeeds()
             return jsonify(True)
 
         # A route that pauses feeding.
@@ -221,6 +222,7 @@ class WebWorker(Worker):
         }
 
         return json.dumps(settings)
+
     def generateVideo(self):
         video_capture = cv2.VideoCapture(0)
         while True:
@@ -229,3 +231,14 @@ class WebWorker(Worker):
             yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
         video_capture.release()
+
+    
+    def removeOldFeeds(self):
+        feed_events = []
+        count = 0
+        for feed_event in FeedEvent.select().order_by(FeedEvent.date_created.desc()):
+            if count >= 10:
+                data = "./delete-video.sh feed_" + str(feed_event.id)
+                call([data], shell=True, cwd='/home/pi/hungry-cat/src/static/videos')
+                feed_event.delete_instance()
+            count += 1

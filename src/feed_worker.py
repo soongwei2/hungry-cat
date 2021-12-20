@@ -7,6 +7,7 @@ import logging
 from worker import Worker
 from events.Notification import Notification
 from subprocess import call
+from threading import Thread
 
 # Let's try to identify what hardware we're on.
 is_gpio_capable = False
@@ -48,11 +49,12 @@ class FeedWorker(Worker):
                 feed_event = self.feed_queue.get(timeout=1)
                 if feed_event:
                     logging.getLogger('petfeedd').info("Found a feed event. Dispensing " + str(feed_event.size) + " feeds.")
+                     
+                    Thread(target = self.recordVideo(feed_event.id)).start()
                     
-                    self.recordVideo(feed_event.id)
                     time.sleep(10)
-                    self.feed(feed_event.size)
-                    
+                    Thread(target = self.feed(feed_event.size)).start()
+
                     note = Notification()
                     note.text = self.config["general"]["name"] + " dispensed " + \
                         str(feed_event.size) + " feeds at " + \

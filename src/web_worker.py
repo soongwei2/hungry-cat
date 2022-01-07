@@ -3,7 +3,6 @@ import datetime
 import urllib.request
 import petfeedd
 import logging
-import cv2
 from time import mktime
 
 from flask import Flask
@@ -121,11 +120,6 @@ class WebWorker(Worker):
         def status():
             return self.get_status()
 
-        @self.app.route('/api/video_feed', methods=['GET'])
-        def video_feed():
-            return Response(self.generateVideo(),
-                mimetype='multipart/x-mixed-replace; boundary=frame')
-
         @self.app.route('/api/stream_video/<int:feed_id>', methods=['GET'])
         def stream_video(feed_id):
             return Response(self.streamVideo(feed_id),
@@ -223,16 +217,6 @@ class WebWorker(Worker):
         }
 
         return json.dumps(settings)
-
-    def generateVideo(self):
-        video_capture = cv2.VideoCapture(0)
-        while True:
-            ret, image = video_capture.read()
-            cv2.imwrite('t.jpg', image)
-            yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + open('t.jpg', 'rb').read() + b'\r\n')
-        video_capture.release()
-
     
     def removeOldFeeds(self):
         feed_events = []

@@ -1,4 +1,4 @@
-var Video = { template: '<div><h1>Live Video</h1><img id="img" src="http://192.168.123.227:8080/dev/video0"></div>' }
+var Video = { template: '<div><h1>Live Video</h1><img id="img" src="' + streamAddress + '"></div>' }
 
 var t = new Date();
 var DefaultFeed = {
@@ -9,6 +9,8 @@ var DefaultFeed = {
     last_feed: 0,
     feed_count: 0
 };
+
+var streamAddress = "http://" + window.location.hostname + ":8080/dev/video0";
 
 var messageBus = new Vue();
 

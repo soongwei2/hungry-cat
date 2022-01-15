@@ -1,3 +1,5 @@
+var streamAddress = "http://" + window.location.hostname + ":8080/dev/video0";
+
 var Video = { template: '<div><h1>Live Video</h1><img id="img" src="' + streamAddress + '" style="max-width: 100%; max-height: 100%;"></div>' }
 
 var t = new Date();
@@ -10,7 +12,7 @@ var DefaultFeed = {
     feed_count: 0
 };
 
-var streamAddress = "http://" + window.location.hostname + ":8080/dev/video0";
+
 
 var messageBus = new Vue();
 

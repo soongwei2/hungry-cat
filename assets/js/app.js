@@ -1,4 +1,4 @@
-var Video = { template: '<div><h1>Live Video</h1><img id="img" src="' + streamAddress + '"></div>' }
+var Video = { template: '<div><h1>Live Video</h1><img id="img" src="' + streamAddress + '" style="max-width: 100%; max-height: 100%;"></div>' }
 
 var t = new Date();
 var DefaultFeed = {
